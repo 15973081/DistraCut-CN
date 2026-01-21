@@ -1,7 +1,7 @@
 import { defineConfig } from "tsup";
 import { copyFile } from "node:fs/promises";
 
-const TARGET = process.env.TARGET as "chrome" | "firefox";
+const TARGET = "chrome" as const;
 
 export default defineConfig({
   clean: true,
@@ -26,6 +26,7 @@ export default defineConfig({
       "common.css",
       "blocked.css",
       "blocked.html",
+      "blocked.js",
       "options.css",
       "options.html",
       `manifest-${TARGET}.json`,
