@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Block Site</title>
+  <title>网站拦截</title>
   <link rel="stylesheet" href="common.css">
   <link rel="stylesheet" href="options.css">
   <link rel="icon" type="image/png" href="icon_32.png">
@@ -13,57 +13,57 @@
 <body>
   <h1>
     <img src="icon_128.png">
-    <span>Block Site</span>
+    <span>网站拦截</span>
   </h1>
 
   <div class="options">
     <div id="enabled-option" class="option">
-      <label>Enabled?</label>
+      <label>启用？</label>
       <select id="enabled">
-        <option value="YES">Yes</option>
-        <option value="NO">No</option>
+        <option value="YES">是</option>
+        <option value="NO">否</option>
       </select>
     </div>
 
     <div id="context-menu-option" class="option">
-      <label>Context menu?</label>
+      <label>上下文菜单？</label>
       <select id="context-menu">
-        <option value="YES">Yes</option>
-        <option value="NO">No</option>
+        <option value="YES">是</option>
+        <option value="NO">否</option>
       </select>
     </div>
   </div>
 
   <div id="blocked-container">
-    <div>Sites to block</div>
+    <div>要拦截的网站</div>
     <textarea id="blocked-list" rows="10" cols="50" spellcheck="false"></textarea>
   </div>
 
   <div class="options">
     <div id="resolution-option" class="option baseline">
-      <label>How to resolve blocked?</label>
+      <label>如何处理被拦截的网站？</label>
       <div>
         <select id="resolution">
-          <option value="CLOSE_TAB">Close Tab</option>
-          <option value="SHOW_BLOCKED_INFO_PAGE">Show Blocked info page</option>
+          <option value="CLOSE_TAB">关闭标签页</option>
+          <option value="SHOW_BLOCKED_INFO_PAGE">显示拦截信息页面</option>
         </select>
 
         <fieldset id="blocked-info-page-details">
           <div class="option">
-            <label>Show blocked count?</label>
+            <label>显示拦截次数？</label>
             <select id="counter-show">
-              <option value="YES">Yes</option>
-              <option value="NO">No</option>
+              <option value="YES">是</option>
+              <option value="NO">否</option>
             </select>
           </div>
 
           <div id="counter-period-option" class="option">
-            <label>Blocked count period?</label>
+            <label>拦截次数统计周期？</label>
             <select id="counter-period">
-              <option value="ALL_TIME">All Time</option>
-              <option value="THIS_MONTH">This Month</option>
-              <option value="THIS_WEEK">This Week</option>
-              <option value="TODAY">Today</option>
+              <option value="ALL_TIME">全部时间</option>
+              <option value="THIS_MONTH">本月</option>
+              <option value="THIS_WEEK">本周</option>
+              <option value="TODAY">今天</option>
             </select>
           </div>
         </fieldset>
@@ -72,8 +72,8 @@
   </div>
 
   <p id="credits">
-    Created by <a target="_blank" href="https://github.com/penge">Pavel Bucka</a><br>
-    Support Block Site with a <span id="star">★</span> on <a target="_blank" href="https://github.com/penge/block-site">GitHub</a>
+    由 <a target="_blank" href="https://github.com/penge">Pavel Bucka</a> 创建<br>
+    在 <a target="_blank" href="https://github.com/penge/block-site">GitHub</a> 上给网站拦截插件点个 <span id="star">★</span> 支持一下
   </p>
 </body>
 

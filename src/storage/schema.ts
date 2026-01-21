@@ -44,15 +44,15 @@ export const VALIDATORS: Readonly<Record<keyof Schema, (value: unknown) => boole
 };
 
 export const BLOCKED_EXAMPLE: string[] = [
-  "example.com          # any page (same as example.com/*)",
-  "example.com/         # main page only",
-  "example.com/*        # any page",
+  "example.com          # 任意页面 (等同于 example.com/*)",
+  "example.com/         # 仅主页",
+  "example.com/*        # 任意页面",
   "",
 
-  "!one.example.com     # ! = exclude",
-  "*.example.com        # * = any zero or more characters",
+  "!one.example.com     # ! = 排除",
+  "*.example.com        # * = 任意零个或多个字符",
   "",
 
-  "example.com/???/     # ? = any one character",
+  "example.com/???/     # ? = 任意一个字符",
   "example.com/app/*",
 ];
