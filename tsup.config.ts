@@ -16,6 +16,13 @@ export default defineConfig({
   format: "esm",
   treeshake: true,
   noExternal: ["dayjs"],
+  bundle: true,
+  splitting: true,
+  outExtension() {
+    return {
+      js: '.js'
+    };
+  },
   esbuildOptions(options) {
     options.chunkNames = "chunks/[name]-[hash]";
   },
@@ -26,7 +33,6 @@ export default defineConfig({
       "common.css",
       "blocked.css",
       "blocked.html",
-      "blocked.js",
       "options.css",
       "options.html",
       `manifest-${TARGET}.json`,

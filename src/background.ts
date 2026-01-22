@@ -2,12 +2,16 @@ import initStorage from "./storage/init";
 import storage from "./storage";
 import recreateContextMenu from "./helpers/recreate-context-menu";
 import blockSite from "./helpers/block-site";
+import { initDisciplineDays } from "./utils/discipline-days";
 
 let __enabled: boolean;
 let __contextMenu: boolean;
 let __blocked: string[];
 
 initStorage().then(() => {
+  // 初始化自律天数功能
+  initDisciplineDays();
+  
   storage.get(["enabled", "contextMenu", "blocked"]).then(({ enabled, contextMenu, blocked }) => {
     __enabled = enabled;
     __contextMenu = contextMenu;

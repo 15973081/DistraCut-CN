@@ -183,6 +183,22 @@
             text-decoration: underline;
         }
 
+        /* 操作按钮容器样式 */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 响应式设计 - 操作按钮容器 */
+        @media (max-width: 768px) {
+            .actions {
+                margin-bottom: 2rem;
+            }
+        }
+
         /* 底部信息样式 */
         .bottom-info {
             margin-top: 3rem;
@@ -334,8 +350,10 @@
             深呼吸，回归任务，你正在变得更强大。
         </p>
         
-        <button class="back-button">关闭标签页</button>
-        <a href="options.html" class="options-link">查看选项</a>
+        <div class="actions">
+            <button class="back-button">关闭标签页</button>
+            <a href="options.html" class="options-link">查看选项</a>
+        </div>
         
         <div class="bottom-info">
             <p class="focus-stats">
@@ -345,6 +363,6 @@
         </div>
     </div>
 
-    <script src="blocked.js"></script>
+    <script src="blocked.js" type="module"></script>
 </body>
 </html>
