@@ -21,6 +21,8 @@ export interface Schema {
   counterShow: boolean
   counterPeriod: CounterPeriod
   resolution: Resolution
+  installDate?: string
+  disciplineDays?: number
 }
 
 export const DEFAULTS: Readonly<Schema> = {
@@ -41,6 +43,8 @@ export const VALIDATORS: Readonly<Record<keyof Schema, (value: unknown) => boole
   counterShow: (value) => typeof value === "boolean",
   counterPeriod: (value) => COUNTER_PERIODS.includes(value as CounterPeriod),
   resolution: (value) => RESOLUTIONS.includes(value as Resolution),
+  installDate: (value) => value === undefined || typeof value === "string",
+  disciplineDays: (value) => value === undefined || typeof value === "number",
 };
 
 export const BLOCKED_EXAMPLE: string[] = [
