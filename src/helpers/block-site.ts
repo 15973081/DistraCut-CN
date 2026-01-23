@@ -35,27 +35,27 @@ export default (options: BlockSiteOptions) => {
     storage.set({ counter });
 
     switch (resolution) {
-    case "CLOSE_TAB":
-      chrome.tabs.remove(tabId);
-      break;
-    case "SHOW_BLOCKED_INFO_PAGE": {
-      const commonUpdateProperties = {
-        url: getBlockedUrl({
-          url,
-          rule: foundRule.path,
-          countParams: counterShow ? { count, period: counterPeriod } : undefined,
-        }),
-      };
-
-      if (process.env.TARGET === "chrome") {
-        chrome.tabs.update(tabId, commonUpdateProperties);
+      case "CLOSE_TAB":
+        chrome.tabs.remove(tabId);
         break;
-      }
+      case "SHOW_BLOCKED_INFO_PAGE": {
+        const commonUpdateProperties = {
+          url: getBlockedUrl({
+            url,
+            rule: foundRule.path,
+            countParams: counterShow ? { count, period: counterPeriod } : undefined,
+          }),
+        };
 
-      if (process.env.TARGET === "firefox") {
-        browser.tabs.update(tabId, { ...commonUpdateProperties, loadReplace: true });
-        break;
-      }
-    }}
+        if (process.env.TARGET === "chrome") {
+          chrome.tabs.update(tabId, commonUpdateProperties);
+          break;
+        }
+
+        if (process.env.TARGET === "firefox") {
+          browser.tabs.update(tabId, { ...commonUpdateProperties, loadReplace: true });
+          break;
+        }
+      }}
   });
 };

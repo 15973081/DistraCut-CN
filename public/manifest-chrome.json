@@ -1,16 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "Block Site",
-  "description": "Blocks access to distracting websites to improve your productivity.",
-  "version": "8.2.1",
+  "name": "断燥",
+  "description": "切断数字干扰，保留真正重要的专注",
+  "version": "1.0.1",
   "icons": {
-    "32": "icon_32.png",
-    "128": "icon_128.png"
+    "192": "icon_192.png",
+    "512": "icon_512.png"
   },
   "action": {
     "default_icon": {
-      "32": "icon_32.png",
-      "128": "icon_128.png"
+      "192": "icon_192.png",
+      "512": "icon_512.png"
     }
   },
   "options_page": "options.html",
@@ -21,7 +21,7 @@
     "contextMenus"
   ],
   "background": {
-    "service_worker": "background.mjs",
+    "service_worker": "background.js",
     "type": "module"
   },
   "incognito": "split",
