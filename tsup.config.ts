@@ -1,32 +1,46 @@
 import { defineConfig } from "tsup";
-import { copyFile } from "node:fs/promises";
+import { copyFile, mkdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
 
-const TARGET = "chrome" as const;
+type Target = "chrome" | "firefox";
+const TARGET = (process.env.TARGET ?? "chrome") as Target;
 
 export default defineConfig({
   clean: true,
+
   entry: [
     "src/background.ts",
     "src/blocked.ts",
     "src/options.ts",
   ],
-  env: { TARGET },
+
+  env: {
+    TARGET,
+  },
+
   outDir: `dist/${TARGET}`,
   target: "es2022",
   format: "esm",
-  treeshake: true,
-  noExternal: ["dayjs"],
+
   bundle: true,
   splitting: true,
+  treeshake: true,
+  noExternal: ["dayjs"],
+
   outExtension() {
-    return {
-      js: '.js'
-    };
+    return { js: ".js" };
   },
+
   esbuildOptions(options) {
     options.chunkNames = "chunks/[name]-[hash]";
   },
-  onSuccess: () => new Promise((resolve, reject) => {
+
+  async onSuccess() {
+    const outDir = `dist/${TARGET}`;
+    if (!existsSync(outDir)) {
+      await mkdir(outDir, { recursive: true });
+    }
+
     const files = [
       "icon_192.png",
       "icon_512.png",
@@ -38,10 +52,13 @@ export default defineConfig({
       `manifest-${TARGET}.json`,
     ];
 
-    const copyFilesPromises = files.map((file) => (
-      copyFile(`public/${file}`, `dist/${TARGET}/${file.replace(`-${TARGET}`, "")}`)
-    ));
-
-    Promise.all(copyFilesPromises).then(() => resolve()).catch(reject);
-  }),
+    await Promise.all(
+      files.map((file) =>
+        copyFile(
+          `public/${file}`,
+          `${outDir}/${file.replace(`-${TARGET}`, "")}`,
+        ),
+      ),
+    );
+  },
 });
