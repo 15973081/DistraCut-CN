@@ -80,10 +80,12 @@ DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单�
     # 分别构建 Firefox 和 Chrome 版本
     npm run build:firefox
     npm run build:chrome
+   ```
 
+   ```bash
     # 或者一键同时构建两个版本
     npm run build
-   ```
+    ```
 
    - Chrome / 基于 Chromium 浏览器 → 扩展管理页 → 加载已解压的扩展 → 选择本目录(dist/chrome)
    - Firefox → about:debugging → 此 Firefox → 临时载入附加组件 → 选择 manifest.json(dist/firefox)
