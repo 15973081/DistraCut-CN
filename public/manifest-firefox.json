@@ -1,42 +1,29 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "断燥",
   "description": "切断数字干扰，保留真正重要的专注",
-  "version": "1.0.1",
-
+  "version": "1.1.1",
   "icons": {
-    "48": "icon_192.png",
-    "96": "icon_512.png"
+    "192": "icon_192.png",
+    "512": "icon_512.png"
   },
-
-  "browser_action": {
-    "default_title": "断燥",
-    "default_popup": "options.html"
+  "action": {
+    "default_title": "断燥"
   },
-
-  "background": {
-    "scripts": ["background.js"]
-  },
-
-  "options_ui": {
-    "page": "options.html",
-    "open_in_tab": true
-  },
-
+  "options_page": "options.html",
   "permissions": [
     "storage",
     "tabs",
     "webNavigation",
-    "contextMenus",
+    "contextMenus"
+  ],
+  "host_permissions": [
     "<all_urls>"
   ],
-
-  "incognito": "spanning",
-
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{5D2A6F66-7AC0-6750-AFBA-1DA7C98A3086}",
-      "strict_min_version": "109.0"
-    }
-  }
+  "background": {
+    "scripts": ["background.js"],
+    "type": "module",
+    "persistent": false
+  },
+  "incognito": "split"
 }
