@@ -75,6 +75,10 @@ DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单�
     git clone https://github.com/15973081/DistraCut-CN.git
     cd DistraCut-CN
    ```
+   ```bash
+   # 安装npm
+    npm install
+   ```
 
    ```bash
     # 分别构建 Firefox 和 Chrome 版本
