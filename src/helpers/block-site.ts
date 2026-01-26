@@ -3,22 +3,35 @@ import findRule from "./find-rule";
 import * as counterHelper from "./counter";
 import getBlockedUrl from "./get-blocked-url";
 
-// 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
-
 interface BlockSiteOptions {
-  blocked: string[]
-  tabId: number
-  url: string
+  blocked: string[];
+  tabId: number;
+  url: string;
 }
 
-export default async (options: BlockSiteOptions) => {
-  try {
-    const { blocked, tabId, url } = options;
-    if (!blocked.length || !tabId || !url.startsWith("http")) {
-      return;
-    }
+/** 安全更新 Tab，兼容 Firefox 和 Chrome */
+async function safeUpdateTab(tabId: number, updateProperties: chrome.tabs.UpdateProperties & { loadReplace?: boolean }) {
+  if (typeof browser !== 'undefined') {
+    await browser.tabs.update(tabId, updateProperties);
+  } else if (typeof chrome !== 'undefined') {
+    const { loadReplace, ...props } = updateProperties;
+    await chrome.tabs.update(tabId, props);
+  }
+}
 
+/** 安全移除 Tab，兼容 Firefox 和 Chrome */
+async function safeRemoveTab(tabId: number) {
+  if (typeof browser !== 'undefined') {
+    await browser.tabs.remove(tabId);
+  } else if (typeof chrome !== 'undefined') {
+    await chrome.tabs.remove(tabId);
+  }
+}
+
+export default async function blockSite({ blocked, tabId, url }: BlockSiteOptions) {
+  if (!blocked.length || !tabId || !url.startsWith("http")) return;
+
+  try {
     const foundRule = findRule(url, blocked);
     if (!foundRule || foundRule.type === "allow") {
       const { counter } = await storage.get(["counter"]);
@@ -27,42 +40,36 @@ export default async (options: BlockSiteOptions) => {
       return;
     }
 
-    const { counter, counterShow, counterPeriod, resolution } = await storage.get(["counter", "counterShow", "counterPeriod", "resolution"]);
+    const { counter, counterShow, counterPeriod, resolution } = await storage.get([
+      "counter",
+      "counterShow",
+      "counterPeriod",
+      "resolution",
+    ]);
+
+    // 清理过期计数
     counterHelper.flushObsoleteEntries({ blocked, counter });
 
+    // 添加计数
     const timeStamp = Date.now();
     const count = counterHelper.add(foundRule.path, timeStamp, {
       counter,
-      countFromTimeStamp: counterHelper.counterPeriodToTimeStamp(counterPeriod, new Date().getTime()),
+      countFromTimeStamp: counterHelper.counterPeriodToTimeStamp(counterPeriod, timeStamp),
     });
     await storage.set({ counter });
 
-    if (!browserAPI) return;
-
-    switch (resolution) {
-      case "CLOSE_TAB":
-        browserAPI.tabs.remove(tabId);
-        break;
-      case "SHOW_BLOCKED_INFO_PAGE": {
-        const commonUpdateProperties = {
-          url: getBlockedUrl({
-            url,
-            rule: foundRule.path,
-            countParams: counterShow ? { count, period: counterPeriod } : undefined,
-          }),
-        };
-
-        // 兼容Firefox的loadReplace选项，vscode显示正常，webstorm显示update不正常原因是因为：
-        //browserAPI 类型是 联合类型：两个 API 的 tabs.update 签名不同：但为了保护firefox兼容性，只能这样做
-        if (typeof browser !== 'undefined') {
-          browserAPI.tabs.update(tabId, { ...commonUpdateProperties, loadReplace: true });
-        } else {
-          browserAPI.tabs.update(tabId, commonUpdateProperties);
-        }
-        break;
-      }
+    // 执行阻断动作
+    if (resolution === "CLOSE_TAB") {
+      await safeRemoveTab(tabId);
+    } else if (resolution === "SHOW_BLOCKED_INFO_PAGE") {
+      const urlToLoad = getBlockedUrl({
+        url,
+        rule: foundRule.path,
+        countParams: counterShow ? { count, period: counterPeriod } : undefined,
+      });
+      await safeUpdateTab(tabId, { url: urlToLoad, loadReplace: true });
     }
   } catch (error) {
     console.error("Error in blockSite:", error);
   }
-};
+}
