@@ -11,7 +11,7 @@
   <!-- 访问统计 + 基本状态 -->
   <p>
     <img src="https://img.shields.io/badge/dynamic/json?logo=firefox&label=Firefox&query=%24.version&url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv5%2Faddons%2Faddon%2FdistraCut%2F&color=FF7139" alt="Firefox Add-ons version">
-    <img src="https://img.shields.io/badge/dynamic/json?logo=googlechrome&label=Chrome&query=%24.version&url=https%3A%2F%2Fchromewebstore.google.com%2Fwebstore%2Fdetail%2FdistraCut%2F&color=4285F4" alt="Chrome Web Store version"> 
+    <img src="https://img.shields.io/badge/dynamic/json?logo=googlechrome&label=Chrome&query=%24.version&url=https%3A%2F%2Fchromewebstore.google.com%2Fwebstore%2Fdetail%2FdistraCut%2F&color=4285F4" alt="Chrome Web Store version">
     <img src="https://komarev.com/ghpvc/?username=15973081&label=Views&color=647eff&style=flat-square" alt="Profile views">
   </p>
 
@@ -27,7 +27,7 @@
 
 ## 概述
 
-DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单拦截。  
+DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单拦截。
 核心设计理念：**规则透明、本地存储、无网络请求、无遥测**。
 
 主要适用场景：
@@ -72,12 +72,21 @@ DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单�
 
    ```bash
    # 克隆仓库
-   git clone https://github.com/15973081/DistraCut.git
-   cd DistraCut
+    git clone https://github.com/15973081/DistraCut-CN.git
+    cd DistraCut-CN
    ```
 
-   - Chrome / 基于 Chromium 浏览器 → 扩展管理页 → 加载已解压的扩展 → 选择本目录
-   - Firefox → about:debugging → 此 Firefox → 临时载入附加组件 → 选择 manifest.json
+   ```bash
+    # 分别构建 Firefox 和 Chrome 版本
+    npm run build:firefox
+    npm run build:chrome
+
+    # 或者一键同时构建两个版本
+    npm run build
+   ```
+
+   - Chrome / 基于 Chromium 浏览器 → 扩展管理页 → 加载已解压的扩展 → 选择本目录(dist/chrome)
+   - Firefox → about:debugging → 此 Firefox → 临时载入附加组件 → 选择 manifest.json(dist/firefox)
 
 ## 规则语法
 
