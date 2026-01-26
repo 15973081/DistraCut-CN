@@ -25,5 +25,15 @@
     "type": "module",
     "persistent": false
   },
+  "browser_specific_settings": {
+    "gecko": {
+        "id": "mayunnan-firefox-addon@666.com",
+        "data_collection_permissions": {
+        "required": [
+        "none"
+        ]
+      }     
+    }
+  },
   "incognito": "split"
 }
