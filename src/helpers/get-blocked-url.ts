@@ -1,6 +1,12 @@
 import { CounterPeriod } from "../storage";
 
-export const __getBlockedHtmlUrl = () => chrome.runtime.getURL("blocked.html");
+// 获取浏览器API，兼容Chrome和Firefox
+const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+
+export const __getBlockedHtmlUrl = () => {
+  if (!browserAPI) return "blocked.html";
+  return browserAPI.runtime.getURL("blocked.html");
+};
 
 export interface GetBlockedUrlParams {
   url: string
