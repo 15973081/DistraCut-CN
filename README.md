@@ -17,10 +17,10 @@
 
   <p>
     <a href="https://github.com/15973081/DistraCut/stargazers">
-      <img src="https://img.shields.io/github/stars/15973081/DistraCut?style=social" alt="GitHub stars">
+      <img src="https://img.shields.io/github/stars/15973081/DistraCut-CN?style=social" alt="GitHub stars">
     </a>
     <a href="https://github.com/15973081/DistraCut/network/members">
-      <img src="https://img.shields.io/github/forks/15973081/DistraCut?style=social" alt="GitHub forks">
+      <img src="https://img.shields.io/github/forks/15973081/DistraCut-CN?style=social" alt="GitHub forks">
     </a>
   </p>
 </div>
