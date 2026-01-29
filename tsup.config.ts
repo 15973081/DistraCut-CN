@@ -49,7 +49,7 @@ export default defineConfig({
       "blocked.html",
       "options.css",
       "options.html",
-      "options.js"
+      "options.js",
       `manifest-${TARGET}.json`,
     ];
 
