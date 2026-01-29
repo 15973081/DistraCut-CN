@@ -24,6 +24,7 @@ const playBeep = (freq = 400, duration = 0.05) => {
 const typewriter = (element, text, speed = 30) => {
   let i = 0;
   element.innerHTML = '';
+  element.setAttribute('data-text', text);
   const timer = setInterval(() => {
     if (i < text.length) {
       element.innerHTML += text.charAt(i);
@@ -76,7 +77,9 @@ const restoreOptions = () => {
     // 初始化打字效果
     // 针对terminal-title 进行替换
     const title = document.getElementById('terminal-title');
-    typewriter(title, "网站拦截系统 V4.0");
+    const titleText = "网站拦截系统 V4.0";
+    title.setAttribute('data-text', titleText);
+    typewriter(title, titleText);
   });
 };
 
