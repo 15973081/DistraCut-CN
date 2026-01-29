@@ -72,9 +72,10 @@ const restoreOptions = () => {
     document.getElementById('resolution').value = items.resolution;
     document.getElementById('counter-show').value = items.counterShow;
     document.getElementById('counter-period').value = items.counterPeriod;
-    
+
     // 初始化打字效果
-    const title = document.querySelector('.main-title span');
+    // 针对terminal-title 进行替换
+    const title = document.getElementById('terminal-title');
     typewriter(title, "网站拦截系统 V4.0");
   });
 };
@@ -94,11 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 处理拦截信息细节的显示/隐藏逻辑
   const resSelect = document.getElementById('resolution');
   const details = document.getElementById('blocked-info-page-details');
-  
+
   const toggleDetails = () => {
     details.style.display = resSelect.value === 'SHOW_BLOCKED_INFO_PAGE' ? 'block' : 'none';
   };
-  
+
   resSelect.addEventListener('change', toggleDetails);
   toggleDetails(); // 初始化状态
 });
