@@ -1,13 +1,12 @@
-/* --- 辐射4 终端机核心变量 --- */
+/* --- 辐射4 (Pip-Boy) 风格配色与基础设定 --- */
 :root {
   --pip-green: #18fa72;
   --pip-bg: #0c160c;
-  --pip-glow: rgba(24, 250, 114, 0.4);
+  --pip-glow: rgba(24, 250, 114, 0.3);
   --pip-border: 2px solid var(--pip-green);
-  --pip-scanline: rgba(0, 0, 0, 0.2);
 }
 
-/* 全局重置与基础氛围 */
+/* 1. 全局布局重构：保持现代居中感 */
 * {
   margin: 0;
   padding: 0;
@@ -19,98 +18,115 @@ body {
   color: var(--pip-green);
   font-family: 'Courier New', Courier, monospace;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow-x: hidden;
-  /* 老式 CRT 闪烁 */
-  animation: crt-flicker 0.15s infinite;
+  position: relative;
+  /* 模拟老式显示器的微弱闪烁 */
+  animation: flicker 0.15s infinite;
   text-shadow: 0 0 5px var(--pip-green);
-  line-height: 1.4;
 }
 
-/* 核心扫描线与屏幕光泽效果 */
+@keyframes flicker {
+  0% { opacity: 0.98; }
+  50% { opacity: 1; }
+  100% { opacity: 0.99; }
+}
+
+/* 2. CRT 扫描线效果 */
 body::before {
   content: " ";
+  display: block;
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(var(--pip-scanline) 50%, transparent 50%);
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.15) 50%
+  );
+  z-index: 9999;
   background-size: 100% 4px;
-  z-index: 100;
   pointer-events: none;
 }
 
-/* 解决图片中图标文字显示问题的关键：强制 Material Icons 渲染 */
+/* 3. 解决“4.0”显示问题的关键：修正图标样式 */
 .material-icons {
-  font-family: 'Material Icons' !important;
+  font-family: 'Material Icons' !important; /* 强制图标字体渲染 */
   text-transform: none !important;
-  font-size: 24px;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
   user-select: none;
+  display: inline-block;
   vertical-align: middle;
 }
 
-/* 主容器：模拟终端屏幕内衬 */
+/* 4. 标题区域：防止文字重叠 */
 .options-container {
+  width: 100%;
   max-width: 900px;
-  margin: 2rem auto;
   padding: 2rem;
-  position: relative;
-  border-left: 10px solid var(--pip-green); /* 侧边装饰条 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* 标题区重构：修复重叠问题 */
 .main-title {
-  font-size: 3.5rem;
+  font-size: 5rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 20px;
   margin-bottom: 0.5rem;
-  height: 1.2em; /* 固定高度防止打字动效时页面抖动 */
+  min-height: 1.2em; /* 固定高度防止打字动效跳动 */
 }
 
-.icon-large { font-size: 4rem; }
+.icon-large {
+  font-size: 5rem;
+  color: var(--pip-green);
+}
+
+#terminal-title {
+  /* 确保此 ID 渲染的是普通等宽字体，不被图标字体污染 */
+  font-family: 'Courier New', Courier, monospace !important;
+}
 
 .sub-title {
-  background: var(--pip-green);
-  color: var(--pip-bg);
-  padding: 2px 12px;
-  display: inline-block;
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  border: 1px solid var(--pip-green);
+  padding: 4px 20px;
+  margin-bottom: 2.5rem;
   text-transform: uppercase;
+  transition: opacity 0.5s ease;
 }
 
-/* 终端控制台面板：硬核方块风格 */
+/* 5. 玻璃卡片改造成终端面板 */
 .glass-card {
+  width: 100%;
   border: var(--pip-border);
-  background: rgba(24, 250, 114, 0.03);
-  padding: 2.5rem;
-  position: relative;
-  box-shadow: inset 0 0 20px var(--pip-glow);
+  background: rgba(24, 250, 114, 0.05);
+  padding: 3rem;
+  box-shadow: inset 0 0 20px var(--pip-glow), 0 0 15px var(--pip-glow);
 }
 
-/* Section 样式优化 */
-.section { margin-bottom: 3rem; }
+.section {
+  margin-bottom: 40px;
+}
 
 .section-title {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid var(--pip-green);
-  padding-bottom: 8px;
   margin-bottom: 20px;
-  text-transform: uppercase;
+  border-bottom: 1px solid var(--pip-green);
+  padding-bottom: 10px;
 }
 
-/* 表单元素重绘 */
+/* 6. 交互控件：辐射经典的选中反色 */
 .option {
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.option label {
-  font-weight: bold;
-  letter-spacing: 1px;
 }
 
 select, textarea {
@@ -118,50 +134,45 @@ select, textarea {
   border: 1px solid var(--pip-green);
   color: var(--pip-green);
   font-family: inherit;
-  padding: 8px 12px;
+  padding: 10px;
+  font-size: 1rem;
   outline: none;
-  transition: all 0.2s;
 }
 
+/* 选中后的反色效果 (Pip-Boy 经典反馈) */
 select:focus, textarea:focus {
   background: var(--pip-green);
   color: var(--pip-bg);
   box-shadow: 0 0 15px var(--pip-green);
 }
 
-/* 下拉框去默认箭头，换成终端符号 */
-select {
-  appearance: none;
-  min-width: 200px;
-  text-align: center;
-  cursor: pointer;
-}
-
-/* 列表输入框 */
-#blocked-list {
+textarea {
   width: 100%;
-  height: 120px;
+  min-height: 120px;
+  margin-top: 15px;
   border-style: dashed;
 }
 
-/* 底部声明 */
+/* 7. 页脚细节 */
 .credits {
-  margin-top: 3rem;
-  opacity: 0.6;
+  margin-top: 40px;
+  text-align: center;
   font-size: 0.9rem;
-  border-top: 1px solid var(--pip-green);
-  padding-top: 1rem;
+  opacity: 0.8;
 }
 
-.credits a { color: var(--pip-green); text-decoration: underline; }
-
-/* 动画效果 */
-@keyframes crt-flicker {
-  0% { opacity: 0.97; }
-  50% { opacity: 1; }
-  100% { opacity: 0.98; }
+.credits a {
+  color: var(--pip-green);
+  text-decoration: underline;
 }
 
-/* 逻辑隐藏控制 */
-body:not(.resolution-SHOW_BLOCKED_INFO_PAGE) #blocked-info-page-details { display: none; }
-body:not(.counter-show) #counter-period-option { display: none; }
+.star {
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
