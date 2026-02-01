@@ -9,5 +9,5 @@ const periodStrings: Record<CounterPeriod, string> = {
 };
 
 export default ({ url, rule, countParams: cp }: GetBlockedUrlParams): string =>
-  `<span id="url">${url}</span> <b>已被拦截</b>，规则：<span id="rule">${rule}</span>`
+  `<span id="url">${url}</span> <b>已锁定</b> | 违规计数: ID_<span id="rule">${rule}</span>`
   + (cp ? ` (${cp.count}次 ${periodStrings[cp.period]})` : "");
