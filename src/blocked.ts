@@ -1,6 +1,5 @@
 import { VALIDATORS, CounterPeriod } from "./storage";
 import getBlockedMessage from "./helpers/get-blocked-message";
-import { getDisciplineDays } from "./utils/discipline-days";
 
 // 获取浏览器API，兼容Chrome和Firefox
 const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
@@ -8,14 +7,6 @@ const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== '
 // 初始化被拦截页面
 const initBlockedPage = async () => {
   try {
-    // 显示自律天数
-    const disciplineDays = await getDisciplineDays();
-    const focusDaysElement = document.getElementById("focus-days");
-    if (focusDaysElement) {
-      focusDaysElement.textContent = disciplineDays.toString();
-    }
-    
-    // 处理被拦截信息
     const params = new URLSearchParams(window.location.search);
     const url = params.get("url");
     const rule = params.get("rule");

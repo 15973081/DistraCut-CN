@@ -2,7 +2,6 @@ import initStorage from "./storage/init";
 import storage from "./storage";
 import recreateContextMenu from "./helpers/recreate-context-menu";
 import blockSite from "./helpers/block-site";
-import { initDisciplineDays } from "./utils/discipline-days";
 
 // 全局状态变量
 let __enabled: boolean = false;
@@ -19,9 +18,6 @@ const initExtension = async () => {
   try {
     // 初始化存储
     await initStorage();
-    
-    // 初始化自律天数功能
-    initDisciplineDays();
     
     // 获取初始配置
     const { enabled, contextMenu, blocked } = await storage.get(["enabled", "contextMenu", "blocked"]);
