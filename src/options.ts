@@ -196,7 +196,7 @@ const initOptionsPage = async () => {
 
     const toggleDetails = () => {
       if (resSelect && details) {
-        details.style.display = resSelect.value === 'SHOW_BLOCKED_INFO_PAGE' ? 'block' : 'none';
+        details.style.display = (resSelect as HTMLSelectElement).value === 'SHOW_BLOCKED_INFO_PAGE' ? 'block' : 'none';
       }
     };
 
