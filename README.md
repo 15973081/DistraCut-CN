@@ -63,8 +63,8 @@ DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单�
 
 1. 从以下渠道安装最新版本：
 
-   - [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E6%96%AD%E7%87%A5/)（推荐 Firefox 用户）
-   - [Chrome Web Store](https://chromewebstore.google.com/detail/distraCut/…)（Chrome / Edge / Brave 等）
+   - [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/断燥/) (推荐 Firefox 用户)
+   - [Chrome Web Store](https://chromewebstore.google.com/detail/distracut/扩展ID) (适用于 Chrome/Edge 等基于 Chromium 的浏览器)
 
    或
 
