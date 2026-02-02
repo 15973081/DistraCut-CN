@@ -9,7 +9,9 @@
 
   <!-- 访问统计 + 基本状态 -->
   <p>
-    <img src="https://img.shields.io/badge/dynamic/json?logo=firefox&label=Firefox&query=%24.version&url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv5%2Faddons%2Faddon%2F断燥%2F&color=FF7139" alt="Firefox Add-ons version">
+    <img
+  src="https://img.shields.io/badge/dynamic/json?logo=firefox&label=Firefox&query=$.version&url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv5%2Faddons%2Faddon%2F%E6%96%AD%E7%87%A5%2F&color=FF7139"
+  alt="Firefox Add-ons version">
     <img src="https://img.shields.io/badge/dynamic/json?logo=googlechrome&label=Chrome&query=%24.version&url=https%3A%2F%2Fchromewebstore.google.com%2Fwebstore%2Fdetail%2FdistraCut%2F&color=4285F4" alt="Chrome Web Store version">
     <img src="https://komarev.com/ghpvc/?username=15973081&label=Views&color=647eff&style=flat-square" alt="Profile views">
   </p>
