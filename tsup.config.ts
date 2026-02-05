@@ -42,8 +42,8 @@ export default defineConfig({
     }
 
     const files = [
-      "icon_192.png",
-      "icon_512.png",
+      "icon_64.png",
+      "icon_256.png",
       "common.css",
       "blocked.css",
       "blocked.html",
