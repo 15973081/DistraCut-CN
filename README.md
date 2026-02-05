@@ -1,4 +1,3 @@
-
 <div align="center">
   <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/googlechrome.svg" width="64" alt="Chrome" />
   <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/firefoxbrowser.svg" width="64" alt="Firefox" />
@@ -10,7 +9,9 @@
 
   <!-- 访问统计 + 基本状态 -->
   <p>
-    <img src="https://img.shields.io/badge/dynamic/json?logo=firefox&label=Firefox&query=%24.version&url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv5%2Faddons%2Faddon%2FdistraCut%2F&color=FF7139" alt="Firefox Add-ons version">
+    <img
+  src="https://img.shields.io/badge/dynamic/json?logo=firefox&label=Firefox&query=$.version&url=https%3A%2F%2Faddons.mozilla.org%2Fapi%2Fv5%2Faddons%2Faddon%2F%E6%96%AD%E7%87%A5%2F&color=FF7139"
+  alt="Firefox Add-ons version">
     <img src="https://img.shields.io/badge/dynamic/json?logo=googlechrome&label=Chrome&query=%24.version&url=https%3A%2F%2Fchromewebstore.google.com%2Fwebstore%2Fdetail%2FdistraCut%2F&color=4285F4" alt="Chrome Web Store version">
     <img src="https://komarev.com/ghpvc/?username=15973081&label=Views&color=647eff&style=flat-square" alt="Profile views">
   </p>
@@ -63,8 +64,8 @@ DistraCut 是一款专注力辅助工具，以极简方式实现网站黑名单�
 
 1. 从以下渠道安装最新版本：
 
-   - [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/distraCut/)（推荐 Firefox 用户）
-   - [Chrome Web Store](https://chromewebstore.google.com/detail/distraCut/…)（Chrome / Edge / Brave 等）
+   - [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/断燥/) (推荐 Firefox 用户)
+   - [Chrome Web Store](https://chromewebstore.google.com/detail/distracut/扩展ID) (适用于 Chrome/Edge 等基于 Chromium 的浏览器)
 
    或
 
