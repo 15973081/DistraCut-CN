@@ -185,7 +185,7 @@ const initOptionsPage = async () => {
     // 初始化打字效果
     const title = document.getElementById('terminal-title');
     if (title) {
-      const titleText = "网站拦截系统 V4.0";
+      const titleText = "自律终端 V4.0";
       title.setAttribute('data-text', titleText);
       typewriter(title, titleText);
     }
