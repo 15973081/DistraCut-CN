@@ -11,11 +11,11 @@ interface BlockSiteOptions {
 
 /** 安全更新 Tab，兼容 Firefox 和 Chrome */
 async function safeUpdateTab(tabId: number, updateProperties: chrome.tabs.UpdateProperties & { loadReplace?: boolean }) {
-  if (typeof browser !== 'undefined') {
-    await browser.tabs.update(tabId, updateProperties);
-  } else if (typeof chrome !== 'undefined') {
+  if (process.env.TARGET === "chrome") {
     const { loadReplace, ...props } = updateProperties;
     await chrome.tabs.update(tabId, props);
+  } else {
+    await browser.tabs.update(tabId, updateProperties);
   }
 }
 
@@ -67,7 +67,11 @@ export default async function blockSite({ blocked, tabId, url }: BlockSiteOption
         rule: foundRule.path,
         countParams: counterShow ? { count, period: counterPeriod } : undefined,
       });
-      await safeUpdateTab(tabId, { url: urlToLoad, loadReplace: true });
+      const updateParams: any = { url: urlToLoad };
+      if (process.env.TARGET === "firefox") {
+        updateParams.loadReplace = true;
+      }
+      await safeUpdateTab(tabId, updateParams);
     }
   } catch (error) {
     console.error("Error in blockSite:", error);
