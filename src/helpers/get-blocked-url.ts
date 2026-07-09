@@ -1,7 +1,7 @@
 import { CounterPeriod } from "../storage";
 
 // 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+const browserAPI = typeof chrome !== "undefined" ? chrome : typeof browser !== "undefined" ? browser : null;
 
 export const __getBlockedHtmlUrl = () => {
   if (!browserAPI) return "blocked.html";

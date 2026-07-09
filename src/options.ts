@@ -1,17 +1,25 @@
 import storage, {
   Schema, Resolution, CounterPeriod, RESOLUTIONS, BLOCKED_EXAMPLE,
 } from "./storage";
+import { parseBlockedText } from "./helpers/parse-blocked-rules";
 
 // 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+const browserAPI = typeof chrome !== "undefined" ? chrome : typeof browser !== "undefined" ? browser : null;
+
+type WindowWithWebkitAudioContext = Window & typeof globalThis & {
+  webkitAudioContext?: typeof AudioContext
+};
 
 // 模拟 Pip-Boy 的简单合成音效
 const playBeep = (freq = 400, duration = 0.05) => {
-  const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const AudioContextConstructor = window.AudioContext || (window as WindowWithWebkitAudioContext).webkitAudioContext;
+  if (!AudioContextConstructor) return;
+
+  const audioCtx = new AudioContextConstructor();
   const oscillator = audioCtx.createOscillator();
   const gainNode = audioCtx.createGain();
 
-  oscillator.type = 'square';
+  oscillator.type = "square";
   oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
   gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
 
@@ -25,8 +33,8 @@ const playBeep = (freq = 400, duration = 0.05) => {
 // 终端机打字效果
 const typewriter = (element: HTMLElement, text: string, speed = 30) => {
   let i = 0;
-  element.innerHTML = '';
-  element.setAttribute('data-text', text);
+  element.innerHTML = "";
+  element.setAttribute("data-text", text);
   const timer = setInterval(() => {
     if (i < text.length) {
       element.innerHTML += text.charAt(i);
@@ -60,7 +68,7 @@ const initOptionsPage = async () => {
     const booleanToString = (b: boolean) => b ? "YES" : "NO";
     const stringToBoolean = (s: string) => s === "YES";
     const getEventTargetValue = (event: Event) => (event.target as HTMLTextAreaElement | HTMLSelectElement).value;
-    const stringToBlocked = (string: string) => string.split("\n").map((s) => s.trim()).filter(Boolean);
+    const stringToBlocked = parseBlockedText;
 
     // 绑定事件监听器
     if (elements.enabled) {
@@ -125,7 +133,7 @@ const initOptionsPage = async () => {
 
     // 显示保存状态
     const showSaveStatus = () => {
-      const status = document.createElement('div');
+      const status = document.createElement("div");
       status.style.cssText = "position:fixed; bottom:20px; right:20px; color:#18fa72; font-weight:bold;";  
       status.textContent = ">>> 存储块已更新 [OK]";
       document.body.appendChild(status);
@@ -183,25 +191,25 @@ const initOptionsPage = async () => {
     document.body.classList.add("ready");
 
     // 初始化打字效果
-    const title = document.getElementById('terminal-title');
+    const title = document.getElementById("terminal-title");
     if (title) {
       const titleText = "自律终端 V4.0";
-      title.setAttribute('data-text', titleText);
+      title.setAttribute("data-text", titleText);
       typewriter(title, titleText);
     }
 
     // 处理拦截信息细节的显示/隐藏逻辑
-    const resSelect = document.getElementById('resolution');
-    const details = document.getElementById('blocked-info-page-details');
+    const resSelect = document.getElementById("resolution");
+    const details = document.getElementById("blocked-info-page-details");
 
     const toggleDetails = () => {
       if (resSelect && details) {
-        details.style.display = (resSelect as HTMLSelectElement).value === 'SHOW_BLOCKED_INFO_PAGE' ? 'block' : 'none';
+        details.style.display = (resSelect as HTMLSelectElement).value === "SHOW_BLOCKED_INFO_PAGE" ? "block" : "none";
       }
     };
 
     if (resSelect) {
-      resSelect.addEventListener('change', toggleDetails);
+      resSelect.addEventListener("change", toggleDetails);
     }
     toggleDetails(); // 初始化状态
 

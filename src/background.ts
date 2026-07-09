@@ -7,9 +7,31 @@ import blockSite from "./helpers/block-site";
 let __enabled: boolean = false;
 let __contextMenu: boolean = false;
 let __blocked: string[] = [];
+const RECENT_NAVIGATION_TTL = 1000;
+const recentNavigations = new Map<string, number>();
 
 // 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+const browserAPI = typeof chrome !== "undefined" ? chrome : typeof browser !== "undefined" ? browser : null;
+
+const shouldProcessNavigation = (tabId: number, url: string) => {
+  if (tabId < 0) return false;
+
+  const now = Date.now();
+  const key = `${tabId}:${url}`;
+  const lastSeen = recentNavigations.get(key);
+  if (lastSeen !== undefined && now - lastSeen < RECENT_NAVIGATION_TTL) {
+    return false;
+  }
+
+  recentNavigations.set(key, now);
+  recentNavigations.forEach((value, mapKey) => {
+    if (now - value >= RECENT_NAVIGATION_TTL) {
+      recentNavigations.delete(mapKey);
+    }
+  });
+
+  return true;
+};
 
 // 初始化扩展
 const initExtension = async () => {
@@ -73,7 +95,7 @@ const registerListeners = () => {
       }
 
       const { tabId, url, frameId } = details;
-      if (!url || !url.startsWith("http") || frameId !== 0) {
+      if (!url || !url.startsWith("http") || frameId !== 0 || !shouldProcessNavigation(tabId, url)) {
         return;
       }
 
@@ -89,7 +111,7 @@ const registerListeners = () => {
       }
 
       const { url } = changeInfo;
-      if (!url || !url.startsWith("http")) {
+      if (!url || !url.startsWith("http") || !shouldProcessNavigation(tabId, url)) {
         return;
       }
 

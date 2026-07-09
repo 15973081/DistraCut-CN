@@ -2,7 +2,7 @@ import { VALIDATORS, CounterPeriod } from "./storage";
 import getBlockedMessage from "./helpers/get-blocked-message";
 
 // 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+const browserAPI = typeof chrome !== "undefined" ? chrome : typeof browser !== "undefined" ? browser : null;
 
 // 初始化被拦截页面
 const initBlockedPage = async () => {
@@ -31,20 +31,20 @@ const initBlockedPage = async () => {
     }
     
     // 关闭标签页功能
-    const button = document.querySelector('.back-button') as HTMLElement | null;
+    const button = document.querySelector(".back-button") as HTMLElement | null;
     if (button) {
-      button.addEventListener('click', () => {
-        button.style.transform = 'scale(0.95)';
+      button.addEventListener("click", () => {
+        button.style.transform = "scale(0.95)";
 
         const fallback = () => {
-          window.location.replace('about:blank');
+          window.location.replace("about:blank");
         };
 
         try {
           if (browserAPI && browserAPI.storage?.session && browserAPI.tabs) {
             // 告诉 background：这是一次"用户主动关闭"
             browserAPI.storage.session.set({ allowCloseOnce: true }, () => {
-              browserAPI.tabs.query({ active: true, currentWindow: true }, tabs => {
+              browserAPI.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                 const tab = tabs?.[0];
                 if (tab?.id) {
                   browserAPI.tabs.remove(tab.id);
@@ -61,7 +61,7 @@ const initBlockedPage = async () => {
         }
 
         setTimeout(() => {
-          button.style.transform = 'scale(1)';
+          button.style.transform = "scale(1)";
         }, 150);
       });
     }

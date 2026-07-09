@@ -1,9 +1,10 @@
 import storage from "../storage";
 import blockSite from "./block-site";
+import { parseBlockedRules } from "./parse-blocked-rules";
 import removeProtocol from "./remove-protocol";
 
 // 获取浏览器API，兼容Chrome和Firefox
-const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
+const browserAPI = typeof chrome !== "undefined" ? chrome : typeof browser !== "undefined" ? browser : null;
 
 // 创建上下文菜单
 const createContextMenu = () => {
@@ -50,7 +51,7 @@ const createContextMenu = () => {
 
       // 获取当前拦截列表并添加新的网站
       const { blocked } = await storage.get(["blocked"]);
-      const updatedBlocked = [...blocked, blockedUrl];
+      const updatedBlocked = parseBlockedRules([...blocked, blockedUrl]);
       await storage.set({ blocked: updatedBlocked });
       // 立即拦截当前标签页
       await blockSite({ blocked: updatedBlocked, tabId, url });

@@ -9,10 +9,13 @@ interface BlockSiteOptions {
   url: string;
 }
 
+type UpdateTabProperties = chrome.tabs.UpdateProperties & { loadReplace?: boolean };
+
 /** 安全更新 Tab，兼容 Firefox 和 Chrome */
-async function safeUpdateTab(tabId: number, updateProperties: chrome.tabs.UpdateProperties & { loadReplace?: boolean }) {
+async function safeUpdateTab(tabId: number, updateProperties: UpdateTabProperties) {
   if (process.env.TARGET === "chrome") {
-    const { loadReplace, ...props } = updateProperties;
+    const props = { ...updateProperties };
+    delete props.loadReplace;
     await chrome.tabs.update(tabId, props);
   } else {
     await browser.tabs.update(tabId, updateProperties);
@@ -21,9 +24,9 @@ async function safeUpdateTab(tabId: number, updateProperties: chrome.tabs.Update
 
 /** 安全移除 Tab，兼容 Firefox 和 Chrome */
 async function safeRemoveTab(tabId: number) {
-  if (typeof browser !== 'undefined') {
+  if (typeof browser !== "undefined") {
     await browser.tabs.remove(tabId);
-  } else if (typeof chrome !== 'undefined') {
+  } else if (typeof chrome !== "undefined") {
     await chrome.tabs.remove(tabId);
   }
 }
@@ -67,7 +70,7 @@ export default async function blockSite({ blocked, tabId, url }: BlockSiteOption
         rule: foundRule.path,
         countParams: counterShow ? { count, period: counterPeriod } : undefined,
       });
-      const updateParams: any = { url: urlToLoad };
+      const updateParams: UpdateTabProperties = { url: urlToLoad };
       if (process.env.TARGET === "firefox") {
         updateParams.loadReplace = true;
       }

@@ -38,8 +38,16 @@ export const DEFAULTS: Readonly<Schema> = {
 export const VALIDATORS: Readonly<Record<keyof Schema, (value: unknown) => boolean>> = {
   enabled: (value) => typeof value === "boolean",
   contextMenu: (value) => typeof value === "boolean",
-  blocked: (value) => Array.isArray(value),
-  counter: (value) => typeof value === "object",
+  blocked: (value) => Array.isArray(value) && value.every((item) => typeof item === "string"),
+  counter: (value) => (
+    !!value
+    && typeof value === "object"
+    && !Array.isArray(value)
+    && Object.values(value).every((item) => (
+      Array.isArray(item)
+      && item.every((timeStamp) => typeof timeStamp === "number")
+    ))
+  ),
   counterShow: (value) => typeof value === "boolean",
   counterPeriod: (value) => COUNTER_PERIODS.includes(value as CounterPeriod),
   resolution: (value) => RESOLUTIONS.includes(value as Resolution),
