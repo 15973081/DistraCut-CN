@@ -2,6 +2,7 @@ import storage from "../storage";
 import findRule from "./find-rule";
 import * as counterHelper from "./counter";
 import getBlockedUrl from "./get-blocked-url";
+import { shouldAllowOnce } from "./allow-once";
 
 interface BlockSiteOptions {
   blocked: string[];
@@ -32,6 +33,10 @@ export default async function blockSite({ blocked, tabId, url }: BlockSiteOption
   if (!blocked.length || !tabId || !url.startsWith("http")) return;
 
   try {
+    if (await shouldAllowOnce(url)) {
+      return;
+    }
+
     const foundRule = findRule(url, blocked);
     if (!foundRule || foundRule.type === "allow") {
       const { counter } = await storage.get(["counter"]);

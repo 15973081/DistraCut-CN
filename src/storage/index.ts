@@ -13,15 +13,13 @@ const getStorageAPI = () => {
   throw new Error("Storage API not available");
 };
 
-const storageAPI = getStorageAPI();
-
 // 简化存储API封装，直接使用Promise形式
 const set = <T extends Partial<Schema>>(items: T) => {
-  return storageAPI.local.set(items);
+  return getStorageAPI().local.set(items);
 };
 
 const get = <T extends keyof Schema>(keys: T[]) => {
-  return storageAPI.local.get(keys) as Promise<Pick<Schema, T>>;
+  return getStorageAPI().local.get(keys) as Promise<Pick<Schema, T>>;
 };
 
 const getAll = () => get([

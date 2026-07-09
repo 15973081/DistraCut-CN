@@ -1,5 +1,6 @@
 import { VALIDATORS, CounterPeriod } from "./storage";
 import getBlockedMessage from "./helpers/get-blocked-message";
+import { setAllowCloseOnce } from "./helpers/allow-once";
 
 // 获取浏览器API，兼容Chrome和Firefox
 const browserAPI = typeof chrome !== 'undefined' ? chrome : typeof browser !== 'undefined' ? browser : null;
@@ -30,10 +31,10 @@ const initBlockedPage = async () => {
       }
     }
     
-    // 关闭标签页功能
+    // 允许用户临时继续访问一次
     const button = document.querySelector('.back-button') as HTMLElement | null;
     if (button) {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', async () => {
         button.style.transform = 'scale(0.95)';
 
         const fallback = () => {
@@ -41,18 +42,9 @@ const initBlockedPage = async () => {
         };
 
         try {
-          if (browserAPI && browserAPI.storage?.session && browserAPI.tabs) {
-            // 告诉 background：这是一次"用户主动关闭"
-            browserAPI.storage.session.set({ allowCloseOnce: true }, () => {
-              browserAPI.tabs.query({ active: true, currentWindow: true }, tabs => {
-                const tab = tabs?.[0];
-                if (tab?.id) {
-                  browserAPI.tabs.remove(tab.id);
-                } else {
-                  fallback();
-                }
-              });
-            });
+          if (url) {
+            await setAllowCloseOnce({ url, timestamp: Date.now() });
+            window.location.replace(url);
           } else {
             fallback();
           }
